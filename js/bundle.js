@@ -18,32 +18,33 @@
         const font = '16px "Helvetica Neue", Helvetica, Arial, sans-serif';
 
         if (chart.getDatasetMeta(0).data[i].$context.raw) {
-          // Draw Step Label
-          // Draw a background rect assuming height of font to hold the label
+          // Draw Step Label (the numbers on the right side of the chart)
+          // Since there is no padding concept, use a rect that contains text in order to get the padding effect
+
+          // Start with creating a background rect assuming height of font to hold the label
+          // and make sure the rect extends beyond the width of longest text value
+          const RECT_WIDTH = 100;
+
           ctx.fillStyle = "#ffffff";
-
-          // make rect extend beyond width of text
-          const width = 4 * ctx.measureText(label.toFixed(0)).width;
-
           ctx.fillRect(
-            right - width,
+            right - RECT_WIDTH,
             chart.getDatasetMeta(0).data[i].y - 6,
-            width,
+            RECT_WIDTH,
             20
           );
 
-          // Add the label text (the value of the data point)
+          // Add text label => (the value of the data point)
           ctx.font = font;
           ctx.fillStyle = "#4B5662";
           ctx.textAlign = "right";
           ctx.fillText(
             label.toFixed(0),
-            right - width / 2,
+            right - RECT_WIDTH / 2,
             chart.getDatasetMeta(0).data[i].y
           );
         }
 
-        // Draw polygon for region
+        // Draw a polygon for region to simulate a funnel
         ctx.beginPath();
         ctx.fillStyle = "rgba(181, 219, 214, 1)";
         ctx.strokeStyle = "#E3E8ED";
@@ -87,7 +88,7 @@
       {
         backgroundColor: "rgba(54, 162, 150, 1)",
         borderWidth: 0,
-        data: [52, 40, 13],
+        data: [102, 40, 13],
         barPercentage: 0.25,
         barThickness: 11,
       },
@@ -118,7 +119,7 @@
               display: false,
               drawBorder: false,
             },
-            max: 80,
+            max: 180,
             ticks: {
               display: false,
             },
@@ -135,9 +136,9 @@
             paddingTop: 0,
             ticks: {
               color: "rgba(171, 181, 196, 1)",
-              font: { size: "16px" },
+              font: { size: "16px", weight: "bold" },
               mirror: true,
-              padding: 120,
+              padding: 100,
             },
           },
         },
