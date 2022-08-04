@@ -280,12 +280,24 @@
       ctx.save();
 
       for (let i = 0; i < chart.getDatasetMeta(0).data.length - 1; i++) {
+        const label = chart.getDatasetMeta(0).data[i].$context.raw;
+
+        if (chart.getDatasetMeta(0).data[i].$context.raw) {
+          // Draw Step Label
+          // ctx.font = 20 + "px " + chart.options.defaultFontFamily;
+          ctx.font = 20 + "px ";
+          ctx.fillStyle = "red";
+          ctx.textAlign = "center";
+          ctx.fillText(
+            label.toFixed(0),
+            right,
+            chart.getDatasetMeta(0).data[i].y
+          );
+        }
+
         ctx.beginPath();
-        //   ctx.fillStyle = "#E5F3F1";
         ctx.fillStyle = "rgba(181, 219, 214, 1)";
         ctx.strokeStyle = "#E3E8ED";
-        //   ctx.strokeStyle = "rgba(54, 162, 150, 1)";
-        //   ctx.lineWidth = 3;
 
         ctx.moveTo(
           chart.getDatasetMeta(0).data[i].base,
@@ -312,7 +324,6 @@
         ctx.stroke();
         ctx.fill();
       }
-      // console.log(chart.getDatasetMeta(0).data);
     },
   };
 
@@ -320,14 +331,14 @@
     labels: ["Invited", "Accepted", "Sell Intents"],
     datasets: [
       {
-        label: "Dataset 1",
         backgroundColor: "rgba(54, 162, 150, 1)",
-        //   borderColor: "#E3E8ED",
         borderWidth: 0,
         data: [52, 40, 13],
         barPercentage: 0.25,
         barThickness: 11,
-        //   maxBarThickness: 10,
+        plugins: {
+          legend: { display: false },
+        },
       },
     ],
   };
@@ -342,28 +353,19 @@
         // In this case, we are setting the border of each bar to be 2px wide and green
         elements: {
           bar: {
-            //   borderWidth: 3,
-            //   borderColor: "#E3E8ED",
             borderSkipped: "left",
-            stepLabel: {
-              display: true,
-              fontSize: 20,
-              //   color: "red",
-            },
+            // stepLabel: {
+            //   display: true,
+            //   fontSize: 80,
+            //   color: "green",
+            // },
           },
         },
+        indexAxis: "y",
         region: {
           display: true,
         },
         responsive: true,
-        legend: {
-          labels: {
-            display: false,
-          },
-          display: false,
-          position: "bottom",
-        },
-        indexAxis: "y",
         scales: {
           x: {
             grid: {
@@ -375,19 +377,20 @@
             },
           },
           y: {
-            type: "category",
             beginAtZero: true,
             grid: {
-              display: false,
+              borderWidth: 0,
+              display: true,
+              lineWidth: 11,
+              offset: false,
             },
+            // stepLabel: {
+            //   display: true,
+            //   fontSize: 80,
+            //   color: "green",
+            // },
+            tickWidth: 0,
           },
-          // yAxes: [
-          //   {
-          //     ticks: {
-          //       beginAtZero: true,
-          //     },
-          //   },
-          // ],
         },
         title: {
           display: false,
